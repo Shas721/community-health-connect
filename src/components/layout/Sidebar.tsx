@@ -8,12 +8,14 @@ import {
   FileText, 
   Brain, 
   Settings,
-  Shield,
+  Heart,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Leaf
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   activeItem: string;
@@ -21,19 +23,25 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "map", label: "Live Map", icon: Map },
-  { id: "analytics", label: "Analytics", icon: BarChart3 },
-  { id: "alerts", label: "Alerts", icon: AlertTriangle, badge: 3 },
-  { id: "water", label: "Water Quality", icon: Droplets },
-  { id: "asha", label: "ASHA Management", icon: Users },
-  { id: "reports", label: "Reports", icon: FileText },
-  { id: "ai", label: "AI/ML Center", icon: Brain },
-  { id: "settings", label: "Settings", icon: Settings },
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, route: "/dashboard" },
+  { id: "map", label: "Live Map", icon: Map, route: "/live-map" },
+  { id: "analytics", label: "Analytics", icon: BarChart3, route: "/analytics" },
+  { id: "alerts", label: "Alerts", icon: AlertTriangle, badge: 3, route: "/alerts" },
+  { id: "water", label: "Water Quality", icon: Droplets, route: "/water-quality" },
+  { id: "asha", label: "ASHA Management", icon: Users, route: "/asha-management" },
+  { id: "reports", label: "Reports", icon: FileText, route: "/reports" },
+  { id: "ai", label: "AI/ML Center", icon: Brain, route: "/ai-ml" },
+  { id: "settings", label: "Settings", icon: Settings, route: "/settings" },
 ];
 
 export function Sidebar({ activeItem, onItemClick }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClick = (item: typeof menuItems[0]) => {
+    onItemClick(item.id);
+    navigate(item.route);
+  };
 
   return (
     <aside 
@@ -45,13 +53,14 @@ export function Sidebar({ activeItem, onItemClick }: SidebarProps) {
       {/* Logo */}
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sidebar-primary to-secondary flex items-center justify-center shadow-glow">
-            <Shield className="w-6 h-6 text-sidebar-primary-foreground" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sidebar-primary to-secondary flex items-center justify-center shadow-glow relative">
+            <Heart className="w-5 h-5 text-sidebar-primary-foreground" />
+            <Leaf className="w-3 h-3 text-sidebar-primary-foreground absolute -bottom-0.5 -right-0.5" />
           </div>
           {!collapsed && (
             <div className="animate-fade-in">
-              <h1 className="font-display font-bold text-lg leading-tight">Swasthya</h1>
-              <p className="text-xs text-sidebar-foreground/60">Rakshak</p>
+              <h1 className="font-display font-bold text-lg leading-tight">GramCare</h1>
+              <p className="text-[10px] text-sidebar-foreground/60 italic">Powered by ASHA</p>
             </div>
           )}
         </div>
@@ -62,7 +71,7 @@ export function Sidebar({ activeItem, onItemClick }: SidebarProps) {
         {menuItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => onItemClick(item.id)}
+            onClick={() => handleClick(item)}
             className={cn(
               "w-full sidebar-item",
               activeItem === item.id && "sidebar-item-active"

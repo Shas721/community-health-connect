@@ -1,4 +1,4 @@
-import { Bell, Mail, Search, User, RefreshCw } from "lucide-react";
+import { Bell, Mail, Search, User, RefreshCw, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,8 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
+  const navigate = useNavigate();
+
   return (
     <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6 sticky top-0 z-40">
       {/* Search */}
@@ -49,23 +52,23 @@ export function Header() {
             <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-destructive" />
-                <span className="font-medium text-sm">Outbreak Alert - Rampur</span>
+                <span className="font-medium text-sm">Outbreak Alert - Avalahalli</span>
               </div>
-              <p className="text-xs text-muted-foreground ml-4">47 new diarrhea cases detected</p>
+              <p className="text-xs text-muted-foreground ml-4">23 new diarrhea cases detected</p>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-warning" />
                 <span className="font-medium text-sm">Water Contamination</span>
               </div>
-              <p className="text-xs text-muted-foreground ml-4">Tube Well #23 marked unsafe</p>
+              <p className="text-xs text-muted-foreground ml-4">Tube Well #5 in Nagenahalli marked unsafe</p>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-info" />
                 <span className="font-medium text-sm">AI Prediction Update</span>
               </div>
-              <p className="text-xs text-muted-foreground ml-4">New risk assessment available</p>
+              <p className="text-xs text-muted-foreground ml-4">High risk predicted for Singhanayakanahalli</p>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -83,11 +86,11 @@ export function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="gap-3">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-medium text-sm">
-                DS
+                LK
               </div>
               <div className="text-left hidden md:block">
-                <p className="text-sm font-medium">Dr. Sharma</p>
-                <p className="text-xs text-muted-foreground">CMO, Sitapur</p>
+                <p className="text-sm font-medium">Dr. Lakshmi Kumar</p>
+                <p className="text-xs text-muted-foreground">PHC Yelahanka</p>
               </div>
             </Button>
           </DropdownMenuTrigger>
@@ -97,7 +100,10 @@ export function Header() {
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">Logout</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive" onClick={() => navigate("/")}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

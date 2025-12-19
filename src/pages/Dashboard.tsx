@@ -15,7 +15,9 @@ import {
   Droplets, 
   Users,
   Calendar,
-  RefreshCw
+  RefreshCw,
+  Heart,
+  Leaf
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,27 +27,9 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("dashboard");
 
-  const handleNavigation = (item: string) => {
-    setActiveItem(item);
-    const routes: Record<string, string> = {
-      dashboard: "/dashboard",
-      map: "/live-map",
-      analytics: "/analytics",
-      alerts: "/alerts",
-      water: "/water-quality",
-      asha: "/asha-management",
-      reports: "/reports",
-      ai: "/ai-ml",
-      settings: "/settings",
-    };
-    if (routes[item]) {
-      navigate(routes[item]);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      <Sidebar activeItem={activeItem} onItemClick={handleNavigation} />
+      <Sidebar activeItem={activeItem} onItemClick={setActiveItem} />
       <div className="ml-64 transition-all duration-300">
         <Header />
         <main className="p-6 space-y-6">
@@ -54,7 +38,7 @@ const Dashboard = () => {
               <h1 className="text-2xl font-display font-bold">Health Surveillance Dashboard</h1>
               <p className="text-muted-foreground flex items-center gap-2 mt-1">
                 <Calendar className="w-4 h-4" />
-                District: Sitapur | Period: Last 7 Days
+                PHC: Yelahanka | Villages: Avalahalli, Nagenahalli, Singhanayakanahalli
                 <Badge variant="outline" className="ml-2">
                   <RefreshCw className="w-3 h-3 mr-1" />
                   Live
@@ -70,14 +54,14 @@ const Dashboard = () => {
           <AlertBanner
             severity="critical"
             title="Active Outbreak Alert"
-            message="Acute Diarrheal Disease outbreak detected in Rampur Block - 47 cases in last 48 hours"
+            message="Diarrhea cases detected in Avalahalli - 23 cases in last 48 hours. AI predicts 78% risk of spread."
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard title="Total Surveys" value="2,456" change={12} changeLabel="vs last week" icon={ClipboardList} variant="primary" />
-            <StatCard title="Active Cases" value="127" change={23} changeLabel="Requires attention" icon={AlertCircle} variant="danger" />
-            <StatCard title="Water Sources Tested" value="89" change={8} changeLabel="This week" icon={Droplets} variant="success" />
-            <StatCard title="ASHA Workers Active" value="156" change={-2} changeLabel="Online now: 143" icon={Users} variant="warning" />
+            <StatCard title="Total Surveys" value="456" change={12} changeLabel="vs last week" icon={ClipboardList} variant="primary" />
+            <StatCard title="Active Cases" value="47" change={23} changeLabel="Requires attention" icon={AlertCircle} variant="danger" />
+            <StatCard title="Water Sources Tested" value="24" change={8} changeLabel="This week" icon={Droplets} variant="success" />
+            <StatCard title="ASHA Workers Active" value="6" change={0} changeLabel="Online now: 4" icon={Users} variant="warning" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -96,8 +80,12 @@ const Dashboard = () => {
           </div>
 
           <footer className="pt-6 border-t border-border text-center text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Heart className="w-4 h-4 text-primary" />
+              <Leaf className="w-3 h-3 text-primary" />
+            </div>
             <p>© 2025 Ministry of Health & Family Welfare | Government of India</p>
-            <p className="mt-1">Powered by AI | Swasthya Rakshak v2.0</p>
+            <p className="mt-1 italic">GramCare - Powered by ASHA, Strengthened by AI</p>
           </footer>
         </main>
       </div>

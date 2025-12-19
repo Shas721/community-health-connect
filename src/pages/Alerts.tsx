@@ -6,50 +6,53 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { 
-  AlertTriangle, Bell, CheckCircle, Clock, Filter, Plus, Search,
-  Send, X, ArrowRight, Eye
+  AlertTriangle, Bell, CheckCircle, Clock, Plus, Search, Send, Eye, Brain
 } from "lucide-react";
 
 const alerts = [
   {
     id: 1,
-    title: "Outbreak Alert - Rampur Block",
-    message: "47 diarrhea cases detected in Sector 2, 3, 4. Immediate response required.",
+    title: "Outbreak Alert - Avalahalli",
+    message: "23 diarrhea cases detected. AI predicts 78% risk of further spread.",
     time: "2 hours ago",
     severity: "critical",
     status: "active",
-    acknowledged: "189/234",
-    channels: ["push", "sms", "email"]
+    acknowledged: "4/6",
+    channels: ["push", "sms"],
+    source: "AI Predicted"
   },
   {
     id: 2,
-    title: "Water Contamination - Tube Well #23",
-    message: "Coliform positive test result. Source marked unsafe.",
+    title: "Water Contamination - Nagenahalli",
+    message: "Tube Well #5 tested positive for contamination.",
     time: "5 hours ago",
     severity: "high",
     status: "active",
-    acknowledged: "38/45",
-    channels: ["push", "sms"]
+    acknowledged: "3/6",
+    channels: ["push", "sms"],
+    source: "ASHA Report"
   },
   {
     id: 3,
-    title: "Fever Cluster - Misrikh",
-    message: "12 fever cases reported in concentrated area.",
+    title: "AI Prediction - Dengue Risk",
+    message: "58% dengue outbreak probability in Nagenahalli & Singhanayakanahalli.",
     time: "1 day ago",
     severity: "medium",
-    status: "resolved",
-    acknowledged: "56/56",
-    channels: ["push"]
+    status: "monitoring",
+    acknowledged: "6/6",
+    channels: ["push"],
+    source: "AI Predicted"
   },
   {
     id: 4,
-    title: "AI Prediction - Sitapur North",
-    message: "52% outbreak probability in next 7 days.",
+    title: "Fever Cluster - Singhanayakanahalli",
+    message: "8 fever cases reported. AI model tracking for patterns.",
     time: "2 days ago",
     severity: "low",
-    status: "monitoring",
-    acknowledged: "120/156",
-    channels: ["email"]
+    status: "resolved",
+    acknowledged: "6/6",
+    channels: ["email"],
+    source: "AI Predicted"
   },
 ];
 
@@ -86,7 +89,7 @@ const Alerts = () => {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-display font-bold">Alert Management</h1>
-              <p className="text-muted-foreground">Monitor and manage health alerts</p>
+              <p className="text-muted-foreground">Monitor health alerts including AI predictions - Yelahanka PHC</p>
             </div>
             <Button variant="hero">
               <Plus className="w-4 h-4 mr-2" />
@@ -94,7 +97,6 @@ const Alerts = () => {
             </Button>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-4 gap-4 mb-6">
             <Card className="bg-gradient-to-br from-destructive/10 to-destructive/5 border-destructive/20">
               <CardContent className="p-4 flex items-center gap-4">
@@ -104,6 +106,17 @@ const Alerts = () => {
                 <div>
                   <p className="text-2xl font-bold">2</p>
                   <p className="text-sm text-muted-foreground">Active Alerts</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-info/10 to-info/5 border-info/20">
+              <CardContent className="p-4 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-info/20 flex items-center justify-center">
+                  <Brain className="w-6 h-6 text-info" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">3</p>
+                  <p className="text-sm text-muted-foreground">AI Predicted</p>
                 </div>
               </CardContent>
             </Card>
@@ -124,25 +137,13 @@ const Alerts = () => {
                   <CheckCircle className="w-6 h-6 text-success" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">15</p>
+                  <p className="text-2xl font-bold">8</p>
                   <p className="text-sm text-muted-foreground">Resolved (30d)</p>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-                  <Send className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">2.4k</p>
-                  <p className="text-sm text-muted-foreground">Notifications Sent</p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Filters */}
           <Card className="mb-6">
             <CardContent className="p-4 flex items-center gap-4">
               <div className="relative flex-1">
@@ -170,7 +171,6 @@ const Alerts = () => {
             </CardContent>
           </Card>
 
-          {/* Alerts List */}
           <div className="space-y-4">
             {filteredAlerts.map((alert) => {
               const severity = severityConfig[alert.severity as keyof typeof severityConfig];
@@ -187,6 +187,12 @@ const Alerts = () => {
                           <Badge variant="outline" className={`${status.bg} ${status.color} border-0`}>
                             {alert.status}
                           </Badge>
+                          {alert.source === "AI Predicted" && (
+                            <Badge variant="info" className="gap-1">
+                              <Brain className="w-3 h-3" />
+                              AI
+                            </Badge>
+                          )}
                         </div>
                         <p className="text-sm text-muted-foreground mb-3">{alert.message}</p>
                         <div className="flex items-center gap-6 text-sm text-muted-foreground">
@@ -196,7 +202,7 @@ const Alerts = () => {
                           </span>
                           <span className="flex items-center gap-1">
                             <Bell className="w-4 h-4" />
-                            {alert.acknowledged} acknowledged
+                            {alert.acknowledged} ASHA acknowledged
                           </span>
                           <div className="flex items-center gap-2">
                             {alert.channels.map((ch) => (
