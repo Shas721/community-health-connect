@@ -9,16 +9,17 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { 
   Users, Search, Filter, Plus, Star, Phone, MapPin, Clock,
-  TrendingUp, Award, BookOpen, MoreVertical
+  TrendingUp, Award, BookOpen, MoreVertical, MessageSquare
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ashaWorkers = [
-  { id: 1, name: "Kamla Devi", village: "Rampur S2", phone: "9876543210", surveys: 89, score: 4.9, status: "online", lastActive: "5 mins ago", training: 100 },
-  { id: 2, name: "Sunita Devi", village: "Rampur S4", phone: "9876543211", surveys: 76, score: 4.8, status: "online", lastActive: "12 mins ago", training: 95 },
-  { id: 3, name: "Meera Yadav", village: "Sitapur N", phone: "9876543212", surveys: 72, score: 4.6, status: "away", lastActive: "1 hr ago", training: 88 },
-  { id: 4, name: "Geeta Sharma", village: "Misrikh", phone: "9876543213", surveys: 65, score: 4.5, status: "online", lastActive: "2 mins ago", training: 92 },
-  { id: 5, name: "Rani Singh", village: "Laharpur", phone: "9876543214", surveys: 58, score: 4.2, status: "offline", lastActive: "3 hrs ago", training: 78 },
-  { id: 6, name: "Sita Patel", village: "Mahmudabad", phone: "9876543215", surveys: 52, score: 4.4, status: "online", lastActive: "20 mins ago", training: 85 },
+  { id: 1, name: "Savitri Devi", village: "Avalahalli", phone: "9876543210", surveys: 89, score: 4.9, status: "online", lastActive: "5 mins ago", training: 100 },
+  { id: 2, name: "Lakshmi Kumari", village: "Nagenahalli", phone: "9876543211", surveys: 76, score: 4.8, status: "online", lastActive: "12 mins ago", training: 95 },
+  { id: 3, name: "Manjula H", village: "Singhanayakanahalli", phone: "9876543212", surveys: 72, score: 4.6, status: "away", lastActive: "1 hr ago", training: 88 },
+  { id: 4, name: "Padma N", village: "Yelahanka", phone: "9876543213", surveys: 65, score: 4.5, status: "online", lastActive: "2 mins ago", training: 92 },
+  { id: 5, name: "Geetha R", village: "Avalahalli", phone: "9876543214", surveys: 58, score: 4.2, status: "offline", lastActive: "3 hrs ago", training: 78 },
+  { id: 6, name: "Anitha K", village: "Nagenahalli", phone: "9876543215", surveys: 52, score: 4.4, status: "online", lastActive: "20 mins ago", training: 85 },
 ];
 
 const statusColors = {
@@ -28,6 +29,7 @@ const statusColors = {
 };
 
 const ASHAManagement = () => {
+  const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("asha");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -45,7 +47,7 @@ const ASHAManagement = () => {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-display font-bold">ASHA Worker Management</h1>
-              <p className="text-muted-foreground">156 workers registered in the district</p>
+              <p className="text-muted-foreground">Yelahanka PHC Area - 6 workers registered</p>
             </div>
             <Button variant="hero">
               <Plus className="w-4 h-4 mr-2" />
@@ -53,7 +55,6 @@ const ASHAManagement = () => {
             </Button>
           </div>
 
-          {/* Summary Stats */}
           <div className="grid grid-cols-4 gap-4 mb-6">
             <Card>
               <CardContent className="p-4 flex items-center gap-4">
@@ -61,7 +62,7 @@ const ASHAManagement = () => {
                   <Users className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">156</p>
+                  <p className="text-2xl font-bold">6</p>
                   <p className="text-sm text-muted-foreground">Total Workers</p>
                 </div>
               </CardContent>
@@ -72,7 +73,7 @@ const ASHAManagement = () => {
                   <div className="w-3 h-3 rounded-full bg-success animate-pulse" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-success">143</p>
+                  <p className="text-2xl font-bold text-success">4</p>
                   <p className="text-sm text-muted-foreground">Online Now</p>
                 </div>
               </CardContent>
@@ -83,7 +84,7 @@ const ASHAManagement = () => {
                   <TrendingUp className="w-6 h-6 text-info" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">234</p>
+                  <p className="text-2xl font-bold">34</p>
                   <p className="text-sm text-muted-foreground">Surveys Today</p>
                 </div>
               </CardContent>
@@ -101,7 +102,6 @@ const ASHAManagement = () => {
             </Card>
           </div>
 
-          {/* Search & Filter */}
           <Card className="mb-6">
             <CardContent className="p-4 flex items-center gap-4">
               <div className="relative flex-1">
@@ -120,10 +120,9 @@ const ASHAManagement = () => {
             </CardContent>
           </Card>
 
-          {/* Workers Table */}
           <Card>
             <CardHeader>
-              <CardTitle>All Workers</CardTitle>
+              <CardTitle>All Workers - Yelahanka Area</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -178,8 +177,9 @@ const ASHAManagement = () => {
                       </p>
                     </div>
 
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="w-4 h-4" />
+                    <Button variant="outline" size="sm">
+                      <MessageSquare className="w-4 h-4 mr-1" />
+                      Alert
                     </Button>
                   </div>
                 ))}

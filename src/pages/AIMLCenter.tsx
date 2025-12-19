@@ -6,34 +6,41 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { 
-  Brain, TrendingUp, AlertTriangle, CheckCircle, Info, RefreshCw,
-  Zap, Database, Activity, Target
+  Brain, TrendingUp, AlertTriangle, RefreshCw,
+  Zap, Database, Activity, Target, Bell, Send
 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
-const predictions = [
-  { area: "Rampur Block", risk: 78, trend: "up", factors: ["Heavy rainfall", "Poor sanitation", "Historical pattern"] },
-  { area: "Sitapur North", risk: 52, trend: "up", factors: ["Water contamination", "Crowded areas"] },
-  { area: "Misrikh", risk: 45, trend: "stable", factors: ["Seasonal pattern", "Migration"] },
-  { area: "Laharpur", risk: 23, trend: "down", factors: ["Improved sanitation"] },
-  { area: "Mahmudabad", risk: 15, trend: "down", factors: ["Clean water sources"] },
+const villagePredictions = [
+  { village: "Avalahalli", risk: 78, trend: "up", disease: "Diarrhea", cases: 23, factors: ["Water contamination", "Monsoon season"] },
+  { village: "Nagenahalli", risk: 52, trend: "up", disease: "Fever", cases: 12, factors: ["Mosquito breeding", "Stagnant water"] },
+  { village: "Singhanayakanahalli", risk: 45, trend: "stable", disease: "Viral Fever", cases: 8, factors: ["Seasonal pattern"] },
+  { village: "Yelahanka", risk: 23, trend: "down", disease: "None", cases: 4, factors: ["Good sanitation"] },
 ];
 
-const modelMetrics = [
-  { name: "Model Accuracy", value: 89.3, target: 90, status: "good" },
-  { name: "Precision", value: 87.5, target: 85, status: "excellent" },
-  { name: "Recall", value: 91.2, target: 88, status: "excellent" },
-  { name: "F1 Score", value: 89.3, target: 87, status: "excellent" },
-];
-
-const recentPredictions = [
-  { date: "Jun 15", predicted: 45, actual: 47, accuracy: 96 },
-  { date: "Jun 14", predicted: 38, actual: 42, accuracy: 90 },
-  { date: "Jun 13", predicted: 52, actual: 48, accuracy: 92 },
-  { date: "Jun 12", predicted: 35, actual: 33, accuracy: 94 },
+const diseasePredictions = [
+  { disease: "Diarrhea", totalRisk: 82, affectedVillages: ["Avalahalli", "Nagenahalli"], predictedCases: 35 },
+  { disease: "Dengue", totalRisk: 58, affectedVillages: ["Nagenahalli", "Singhanayakanahalli"], predictedCases: 15 },
+  { disease: "Viral Fever", totalRisk: 45, affectedVillages: ["Singhanayakanahalli"], predictedCases: 10 },
+  { disease: "Malaria", totalRisk: 25, affectedVillages: ["Nagenahalli"], predictedCases: 5 },
 ];
 
 const AIMLCenter = () => {
   const [activeItem, setActiveItem] = useState("ai");
+
+  const handleNotifyASHA = (village: string) => {
+    toast({
+      title: "ASHA Workers Notified",
+      description: `Alert sent to ASHA workers in ${village} about outbreak risk.`,
+    });
+  };
+
+  const handleGenerateAlert = (disease: string) => {
+    toast({
+      title: "Alert Generated",
+      description: `Public health alert created for ${disease} outbreak prediction.`,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -44,7 +51,7 @@ const AIMLCenter = () => {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-display font-bold">AI/ML Prediction Center</h1>
-              <p className="text-muted-foreground">Outbreak prediction and risk assessment</p>
+              <p className="text-muted-foreground">Village-wise & Disease-wise outbreak predictions for Yelahanka PHC</p>
             </div>
             <div className="flex gap-2">
               <Badge variant="outline" className="gap-2">
@@ -67,57 +74,62 @@ const AIMLCenter = () => {
                     <Brain className="w-8 h-8 text-primary-foreground" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold">Outbreak Prediction Model v2.3</h3>
-                    <p className="text-muted-foreground">Last updated: 2 hours ago • Training data: 2.3M records</p>
+                    <h3 className="text-xl font-semibold">GramCare AI Model v2.3</h3>
+                    <p className="text-muted-foreground">Last updated: 2 hours ago • Accuracy: 89.3%</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-4 gap-8">
-                  {modelMetrics.map((metric) => (
-                    <div key={metric.name} className="text-center">
-                      <p className="text-2xl font-bold">{metric.value}%</p>
-                      <p className="text-sm text-muted-foreground">{metric.name}</p>
-                    </div>
-                  ))}
+                <div className="grid grid-cols-3 gap-8">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold">89.3%</p>
+                    <p className="text-sm text-muted-foreground">Accuracy</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold">4</p>
+                    <p className="text-sm text-muted-foreground">Villages</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold">6</p>
+                    <p className="text-sm text-muted-foreground">Diseases Tracked</p>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            {/* Risk Predictions */}
-            <Card className="col-span-2">
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            {/* Village-wise Predictions */}
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="w-5 h-5 text-warning" />
-                  Outbreak Risk Predictions (Next 7 Days)
+                  Village-wise Predictions (Next 7 Days)
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {predictions.map((pred) => (
-                  <div key={pred.area} className="p-4 rounded-lg border border-border">
+                {villagePredictions.map((pred) => (
+                  <div key={pred.village} className="p-4 rounded-lg border border-border">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <p className="font-medium">{pred.area}</p>
-                        <Badge 
-                          variant={pred.risk > 60 ? "destructive" : pred.risk > 30 ? "warning" : "success"}
-                        >
+                        <p className="font-medium">{pred.village}</p>
+                        <Badge variant={pred.risk > 60 ? "destructive" : pred.risk > 30 ? "warning" : "success"}>
                           {pred.risk}% Risk
                         </Badge>
+                        {pred.disease !== "None" && (
+                          <Badge variant="outline">{pred.disease}: {pred.cases} cases</Badge>
+                        )}
                       </div>
-                      <div className="flex items-center gap-1 text-sm">
+                      <div className="flex items-center gap-2">
                         <TrendingUp className={`w-4 h-4 ${pred.trend === "up" ? "text-destructive" : pred.trend === "down" ? "text-success rotate-180" : "text-muted-foreground"}`} />
-                        <span className="capitalize">{pred.trend}</span>
+                        <Button variant="outline" size="sm" onClick={() => handleNotifyASHA(pred.village)}>
+                          <Bell className="w-3 h-3 mr-1" />
+                          Notify ASHA
+                        </Button>
                       </div>
                     </div>
-                    <Progress 
-                      value={pred.risk} 
-                      className="h-2 mb-2"
-                    />
+                    <Progress value={pred.risk} className="h-2 mb-2" />
                     <div className="flex flex-wrap gap-2">
                       {pred.factors.map((factor) => (
-                        <Badge key={factor} variant="secondary" className="text-xs">
-                          {factor}
-                        </Badge>
+                        <Badge key={factor} variant="secondary" className="text-xs">{factor}</Badge>
                       ))}
                     </div>
                   </div>
@@ -125,68 +137,47 @@ const AIMLCenter = () => {
               </CardContent>
             </Card>
 
-            {/* Model Performance */}
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Activity className="w-4 h-4" />
-                    Prediction Accuracy
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {recentPredictions.map((pred) => (
-                    <div key={pred.date} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
-                      <div>
-                        <p className="text-sm font-medium">{pred.date}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Predicted: {pred.predicted} | Actual: {pred.actual}
-                        </p>
+            {/* Disease-wise Predictions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-destructive" />
+                  Disease-wise Predictions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {diseasePredictions.map((pred) => (
+                  <div key={pred.disease} className="p-4 rounded-lg border border-border">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <p className="font-medium">{pred.disease}</p>
+                        <Badge variant={pred.totalRisk > 60 ? "destructive" : pred.totalRisk > 30 ? "warning" : "success"}>
+                          {pred.totalRisk}% Risk
+                        </Badge>
                       </div>
-                      <Badge variant={pred.accuracy >= 95 ? "success" : pred.accuracy >= 90 ? "warning" : "destructive"}>
-                        {pred.accuracy}%
-                      </Badge>
+                      <Button variant="outline" size="sm" onClick={() => handleGenerateAlert(pred.disease)}>
+                        <Zap className="w-3 h-3 mr-1" />
+                        Generate Alert
+                      </Button>
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Database className="w-4 h-4" />
-                    Data Sources
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Health Surveys</span>
-                    <Badge variant="success">Connected</Badge>
+                    <Progress value={pred.totalRisk} className="h-2 mb-2" />
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>Predicted cases: {pred.predictedCases}</span>
+                      <span>Villages: {pred.affectedVillages.join(", ")}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Water Quality</span>
-                    <Badge variant="success">Connected</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Weather Data</span>
-                    <Badge variant="success">Connected</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Population Data</span>
-                    <Badge variant="success">Connected</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Actions */}
+          {/* Quick Actions */}
           <div className="grid grid-cols-4 gap-4">
-            <Card className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5">
+            <Card className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5" onClick={() => toast({ title: "Alert sent to all ASHA workers" })}>
               <CardContent className="p-6 text-center">
-                <Zap className="w-8 h-8 mx-auto text-warning mb-2" />
-                <p className="font-medium">Generate Alert</p>
-                <p className="text-sm text-muted-foreground">From prediction</p>
+                <Send className="w-8 h-8 mx-auto text-primary mb-2" />
+                <p className="font-medium">Notify All ASHA</p>
+                <p className="text-sm text-muted-foreground">Send bulk alerts</p>
               </CardContent>
             </Card>
             <Card className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5">

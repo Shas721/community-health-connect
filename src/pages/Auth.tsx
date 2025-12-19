@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Shield, Users, Stethoscope, ArrowRight } from "lucide-react";
+import { Heart, Users, Stethoscope, ArrowRight, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -47,16 +47,18 @@ const Auth = () => {
       <div className="w-full max-w-lg">
         {/* Logo */}
         <div className="text-center mb-8 animate-slide-up">
-          <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow mb-4">
-            <Shield className="w-10 h-10 text-primary-foreground" />
+          <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow mb-4 relative">
+            <Heart className="w-8 h-8 text-primary-foreground" />
+            <Leaf className="w-4 h-4 text-primary-foreground absolute -bottom-1 -right-1" />
           </div>
-          <h1 className="text-3xl font-display font-bold text-foreground">Swasthya Rakshak</h1>
-          <p className="text-muted-foreground mt-1">Community Health Guardian</p>
+          <h1 className="text-3xl font-display font-bold text-foreground">GramCare</h1>
+          <p className="text-muted-foreground mt-1 text-sm italic">Powered by ASHA, Strengthened by AI</p>
+          <p className="text-xs text-muted-foreground mt-2">ग्रामीण स्वास्थ्य रक्षक | ಗ್ರಾಮ ಆರೋಗ್ಯ ರಕ್ಷಕ</p>
         </div>
 
         {step === "role" ? (
           <div className="space-y-4 animate-fade-in">
-            <h2 className="text-xl font-semibold text-center text-foreground mb-6">Select Your Role</h2>
+            <h2 className="text-xl font-semibold text-center text-foreground mb-6">Select Your Role / ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</h2>
             
             <Card 
               className="cursor-pointer hover:border-primary/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
@@ -67,7 +69,7 @@ const Auth = () => {
                   <Stethoscope className="w-7 h-7 text-primary-foreground" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg">ASHA Worker</h3>
+                  <h3 className="font-semibold text-lg">ASHA Worker / ಆಶಾ ಕಾರ್ಯಕರ್ತ</h3>
                   <p className="text-sm text-muted-foreground">Healthcare professional portal</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground" />
@@ -83,7 +85,7 @@ const Auth = () => {
                   <Users className="w-7 h-7 text-secondary-foreground" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg">Citizen / Villager</h3>
+                  <h3 className="font-semibold text-lg">Citizen / ನಾಗರಿಕ</h3>
                   <p className="text-sm text-muted-foreground">Access health services & tips</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground" />
@@ -91,7 +93,7 @@ const Auth = () => {
             </Card>
 
             <p className="text-center text-sm text-muted-foreground mt-6">
-              🇮🇳 Government of India Initiative
+              🇮🇳 Government of India Initiative | ಭಾರತ ಸರ್ಕಾರದ ಉಪಕ್ರಮ
             </p>
           </div>
         ) : (
